@@ -1,0 +1,37 @@
+debug:
+server:
+  port: 7080
+  contextPath: /client-webapp
+security:
+  user:
+    password: none
+zuul:
+  routes:
+    resource:
+      path: /resource/**
+      url: http://localhost:8080/resource-service/
+    user:
+      path: /user/**
+      url: http://localhost:8080/secured/user
+    customer:
+      path: /customer/**
+      url: http://localhost:8080/secured/customer
+    revoke:
+      path: /revoke/**
+      url: http://localhost:8080/oauth/tokens/revoke/
+spring:
+  oauth2:
+    sso:
+      home:
+        secure: false
+        path: /,/**/*.html
+    client:
+      accessTokenUri: http://localhost:8080/oauth/token
+      userAuthorizationUri: http://localhost:8080/oauth/authorize
+      clientId: spring-security-oauth2-read-write-client
+      clientSecret: spring-security-oauth2-read-write-client-password1234
+    resource:
+      userInfoUri: http://localhost:8080/secured/user
+logging:
+  level:
+    org.springframework.security: DEBUG

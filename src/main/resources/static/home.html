@@ -1,0 +1,71 @@
+<div ng-show="authenticated">
+
+    <a href="" ng-click="getAll()">Load all customers</a><br/>
+
+    <div ng-show="hasError">
+        <h3 style="color: red">{{errorMsg}}</h3>
+    </div>
+
+    <div ng-show="customers">
+        <h2>Search</h2>
+        <label>Any: <input ng-model="search.$"></label> <br>
+        <label>Name only <input ng-model="search.name"></label><br>
+        <label>Email only <input ng-model="search.email"></label><br>
+        <label>Phone only <input ng-model="search.phone"></label><br>
+        <label>Equality <input type="checkbox" ng-model="strict"></label><br>
+        <table id="searchObjResults">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+            <tr ng-repeat="customer in customers | filter:search:strict">
+                <td>{{customer.id}}</td>
+                <td>{{customer.name}}</td>
+                <td>{{customer.email}}</td>
+                <td>{{customer.phone}}</td>
+                <td><a href="" ng-click="getOne(customer.id)">update</a><a style="color: red" href="" ng-click="delete(customer.id)">Delete</a></td>
+            </tr>
+        </table>
+
+        <div ng-show="!editing && !creating">
+        <a href="" ng-click="openCreatingForm()">Add new customer</a><br/>
+        </div>
+
+        <div ng-show="(editing && customers.length > 0) || creating">
+            <h3>
+                <div ng-show="creating">
+                    Create new <a style="color: red" href="" ng-click="closeCreatingForm()">x</a>
+                </div>
+
+                <div ng-show="editing">
+                    Update <a style="color: red" href="" ng-click="closeCreatingForm()">x</a>
+                </div>
+                <br/>
+            </h3>
+            <label>Name:
+                <input type="text" name="input" ng-model="createOrUpdateModel.name">
+            </label>
+            <label>Email:
+                <input type="text" name="input" ng-model="createOrUpdateModel.email">
+            </label>
+            <label>Phone:
+                <input type="text" name="input" placeholder="10 digits" ng-model="createOrUpdateModel.phone">
+            </label>
+
+            <div ng-show="creating">
+                <a href="" ng-click="add()">Add</a><br/>
+            </div>
+
+            <div ng-show="editing">
+                <a href="" ng-click="update()">Update</a><br/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="!authenticated">
+    <p>Login to see customers</p>
+</div>
